@@ -1,0 +1,6 @@
+[plugin]
+prepend_fetchers = [
+    { id = "git", url = "*/", run = "git" },
+    { id = "git", url = "*", run = "git" },
+]
+prepend_previewers = [{ url = "*/", run = "eza-preview" }]

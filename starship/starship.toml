@@ -1,0 +1,149 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+add_newline = false
+
+format = """
+$os\
+$directory\
+$git_branch\
+$git_commit\
+$git_status\
+$git_state\
+$c\
+$dart\
+$nodejs\
+$kotlin\
+$python\
+$rust\
+$line_break\
+$character"""
+
+right_format = "$memory_usage$time"
+
+[username]
+show_always = true
+style_user = "bg:red fg:crust"
+style_root = "bg:red fg:crust"
+format = ' [$user]($style) '
+
+[directory]
+style = "bold cyan"
+read_only = " 󰌾"
+home_symbol = "~"
+format = ' [$path]($style) '
+truncation_length = 3
+truncation_symbol = "…/"
+
+[directory.substitutions]
+"Documents" = "󰈙 "
+"Downloads" = " "
+"Music" = "󰝚 "
+"Pictures" = " "
+"github" = "󰲋 "
+
+
+[character]
+success_symbol = '[➜](bold green)'
+error_symbol = '[➜](bold red)'
+vimcmd_symbol = '[](bold fg:color_green)'
+vimcmd_replace_one_symbol = '[](bold fg:color_purple)'
+vimcmd_replace_symbol = '[](bold fg:color_purple)'
+vimcmd_visual_symbol = '[](bold fg:color_yellow)'
+
+[git_branch]
+format = " [$symbol$branch]($style)"
+style = 'green'
+symbol = "  "
+
+[git_commit]
+commit_hash_length = 6
+disabled = false
+tag_disabled = false
+tag_symbol = '  '
+format = ' [\($tag_symbol$hash$tag\)]($style)'
+
+[git_state]
+disabled = false
+
+[git_status]
+format = " ([$ahead_behind$staged$modified$untracked$renamed$deleted$stashed$conflicted]($style))"
+ahead = "[⇡$count](green) "
+behind = "[⇣$count](red) "
+conflicted = "[~$count](red) "
+deleted = "[󰧧$count](red) "
+diverged = "[⇡$ahead_count](green) [⇣$behind_count](red) "
+modified = "[●$count](bright-green) "
+renamed = "[◎$count](bright-blue) "
+staged = "[+$count](green) "
+stashed = "[◈$count](green) "
+untracked = "[◌$count](bright-red) "
+
+[c]
+format = ' [$symbol($version(-$name))]($style) '
+symbol = " "
+
+[cmake]
+format = ' [$symbol($version)]($style) '
+symbol = " "
+
+[dart]
+format = ' [$symbol($version)]($style) '
+symbol = " "
+
+[docker_context]
+format = ' [$symbol$context]($style) '
+symbol = " "
+
+[golang]
+format = ' $symbol($version)]($style) '
+symbol = " "
+
+[hg_branch]
+symbol = " "
+
+[hostname]
+ssh_symbol = " "
+
+[lua]
+format = ' [$symbol($version)]($style) '
+symbol = " "
+
+[memory_usage]
+format = ' [$symbol(#000000)${ram}]($style) '
+symbol = "󰍛 "
+disabled = false
+threshold = 40
+
+[nodejs]
+format = ' [$symbol($version)]($style) '
+symbol = '󰎙 '
+
+[time]
+disabled = false
+format = ' [[ $time](fg:crust bg:lavender)]($style) '
+
+[os]
+format = ' [$symbol]($style)'
+disabled = false
+
+[os.symbols]
+Arch = " "
+Debian = " "
+Linux = " "
+Macos = " "
+Windows = "󰍲 "
+Raspbian = ' '
+
+[package]
+symbol = "󰏗 "
+
+[python]
+format = ' [${symbol}${pyenv_prefix}(${version})(\($virtualenv\))]($style) '
+symbol = " "
+
+[rust]
+format = '[$symbol($version )]($style) '
+symbol = "󱘗 "
+
+[status]
+symbol = " "

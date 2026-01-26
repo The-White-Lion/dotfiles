@@ -1,0 +1,11 @@
+set nocompatible
+scriptencoding utf-8
+
+set runtimepath^=~/.config/vim
+
+" Load Core and Plugins
+source ~/.config/vim/core/options.vim
+source ~/.config/vim/core/keymaps.vim
+source ~/.config/vim/core/autocmds.vim
+source ~/.config/vim/plugins/plugins.vim
+source ~/.config/vim/core/ui.vim

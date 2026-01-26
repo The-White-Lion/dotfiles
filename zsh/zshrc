@@ -1,0 +1,59 @@
+# 启用补全
+autoload -U compinit && compinit
+zstyle ':completion:*' format $'\e[2;37mCompleting %d\e[m'
+
+# 环境变量
+export EDITOR='vim'
+export VISUAL='vim'
+
+# 代理设置
+export all_proxy="socks5://127.0.0.1:7897"
+export http_proxy="http://127.0.0.1:7897"
+export https_proxy="http://127.0.0.1:7897"
+
+# 工具激活（添加条件检查，避免未安装时报错）
+if command -v mise &> /dev/null; then
+  eval "$(mise activate zsh)"
+  eval "$(mise completion zsh)"
+fi
+
+if command -v starship &> /dev/null; then
+  export STARSHIP_CONFIG="$HOME/.config/starship/starship.toml"
+  eval "$(starship init zsh)"
+fi
+
+if command -v carapace &> /dev/null; then
+  source <(carapace _carapace)
+fi
+
+if command -v zoxide &> /dev/null; then
+  eval "$(zoxide init zsh)"
+fi
+
+# fzf
+if command -v fzf &> /dev/null; then
+  source <(fzf --zsh)
+  export FZF_DEFAULT_COMMAND='fd --follow --hidden --exclude .git --exclude .local'
+  export FZF_DEFAULT_OPTS='--height 60% --layout reverse --border'
+  export FZF_COMPLETION_TRIGGER='**'  # 修复触发器，避免反斜杠问题
+
+  _fzf_compgen_path() {
+    fd --hidden --follow --exclude ".git" . "$1"
+  }
+
+  # Use fd to generate the list for directory completion
+  _fzf_compgen_dir() {
+    fd --type d --hidden --follow --exclude ".git" . "$1"
+  }
+fi
+
+# aliases
+if command -v eza &> /dev/null; then
+  alias ls='eza'
+  alias l='eza -lah --git --git-repos --time-style long-iso --icons=always'
+else
+  alias l='ls -lah'  # 回退到 ls
+fi
+
+# 可选：启用 fzf 预览（如果需要）
+# alias fzf='fzf --preview "if [[ -d {} ]]; then eza -l --color=always {}; else bat --color=always --style=numbers --line-range=:500 {}; fi"'

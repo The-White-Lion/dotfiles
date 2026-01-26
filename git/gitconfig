@@ -1,0 +1,27 @@
+[user]
+  name = the-white-lion
+  email = b1416111568@gmail.com
+
+[core]
+  editor = vim
+  excludesfile = ~/.gitignore_global
+
+[init]
+  defaultBranch = main
+
+[push]
+  autoSetupRemote = true
+
+[rebase]
+  autoStash = true
+
+[pull]
+  rebase = true
+
+[alias]
+  st = status
+  co = checkout
+  br = branch
+  ci = commit
+  unstage = reset HEAD --
+  last = log -1 HEAD
