@@ -9,7 +9,6 @@ set -e
 # Source libraries
 SCRIPT_DIR="$(cd "$(dirname $0)" && pwd)"
 source "$SCRIPT_DIR/lib/platform.sh"
-source "$SCRIPT_DIR/lib/dependencies.sh"
 
 # Variables
 DOTFILES="${PWD:-$HOME/dotfiles}"
@@ -19,18 +18,15 @@ CONFIG_DIR="$HOME/.config"
 # Helper Functions
 # ==============================================
 
-# Check if a command exists, print status and suggest install command if missing
-check_and_suggest_install() {
+# Check if a command exists
+check_tool() {
   local tool=$1
-  local pm=$2
 
   if command -v "$tool" &> /dev/null; then
     echo "  ✓ $tool"
     return 0
   else
-    local install_cmd=$(get_install_command "$tool" "$pm")
-    echo "  ✗ $tool not found"
-    echo "    Install: $install_cmd"
+    echo "  ✗ $tool (not found)"
     return 1
   fi
 }
@@ -91,11 +87,11 @@ main() {
   # Step 2: Check dependencies
   echo ""
   echo "==> Checking dependencies..."
-  local tools=(starship mise zoxide carapace eza)
+  local tools=(starship mise zoxide carapace eza vim yazi nvim)
   local missing=0
 
   for tool in "${tools[@]}"; do
-    check_and_suggest_install "$tool" "$pm" || ((missing++))
+    check_tool "$tool" || ((missing++))
   done
 
   if [[ $missing -gt 0 ]]; then
