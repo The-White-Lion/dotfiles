@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -e
+set -euo pipefail
 
 # ==============================================
 # Dotfiles Bootstrap Script
@@ -91,7 +91,7 @@ main() {
   local missing=0
 
   for tool in "${tools[@]}"; do
-    check_tool "$tool" || ((missing++))
+    check_tool "$tool" || missing=$((missing + 1))
   done
 
   if [[ $missing -gt 0 ]]; then
@@ -107,7 +107,7 @@ main() {
   # Tool configs: format "tool|link_src|link_dest|config_cmd"
   # Empty fields skip that action
   local -a tool_configs=(
-    "starship|$DOTFILES/starship|$CONFIG_DIR/starship|"
+    "starship|$DOTFILES/starship|$CONFIG_DIR/starship|mkdir -p \"$DOTFILES/nushell/vendor/autoload\" && starship init nu >\"$DOTFILES/nushell/vendor/autoload/starship.nu\""
     "mise|||mise activate nu >\"$DOTFILES/nushell/mise.nu\""
     "zoxide|||zoxide init nushell >\"$DOTFILES/nushell/zoxide.nu\""
     "carapace|||carapace _carapace nushell >\"$DOTFILES/nushell/carapace.nu\""
