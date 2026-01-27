@@ -1,16 +1,4 @@
-# https://www.nushell.sh/book/configuration.html
-
 $env.config.buffer_editor = "vim"
-
-# setup-starship.nu
-# mkdir ($nu.data-dir | path join "vendor/autoload")
-# starship init nu | save -f ($nu.data-dir | path join "vendor/autoload/starship.nu")
-# mise
-# let mise_path = $nu.default-config-dir | path join mise.nu
-# '
-# ^mise activate nu | save $mise_path --force
-# ' | save $nu.env-path --append
-# "\nuse ($nu.default-config-dir | path join mise.nu)" | save $nu.config-path --append
 
 # alias
 alias ll = ls -l

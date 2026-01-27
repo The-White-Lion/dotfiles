@@ -45,7 +45,5 @@ map tc :tabe<CR>
 map tmh :-tabmove<CR>
 map tml :+tabmove<CR>
 
-map <LEADER><LEADER> <Esc>/<++><CR>:nohlsearch<CR>c4l
-
 vnoremap <LEADER>y "+y
 nnoremap <LEADER>p "*p
