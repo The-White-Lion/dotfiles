@@ -25,3 +25,19 @@ detect_package_manager() {
     echo "unknown"
   fi
 }
+
+# Detect the config directory Nushell loads by default
+detect_nushell_config_dir() {
+  case "$(detect_os)" in
+    macos)
+      echo "$HOME/Library/Application Support/nushell"
+      ;;
+    *)
+      if [[ -n "${XDG_CONFIG_HOME:-}" ]]; then
+        echo "$XDG_CONFIG_HOME/nushell"
+      else
+        echo "$HOME/.config/nushell"
+      fi
+      ;;
+  esac
+}

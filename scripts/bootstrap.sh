@@ -53,6 +53,34 @@ setup_tool() {
   fi
 }
 
+# Copy Nushell configs to target directory (used on macOS)
+sync_nushell_config() {
+  local src_dir=$1
+  local dest_dir=$2
+
+  mkdir -p "$dest_dir"
+
+  # Keep copy scope explicit to avoid overwriting local runtime artifacts.
+  local files=(
+    "config.nu"
+    "env.nu"
+    "mise.nu"
+    "zoxide.nu"
+    "carapace.nu"
+  )
+
+  for file in "${files[@]}"; do
+    if [[ -f "$src_dir/$file" ]]; then
+      cp "$src_dir/$file" "$dest_dir/$file"
+    fi
+  done
+
+  if [[ -d "$src_dir/vendor" ]]; then
+    mkdir -p "$dest_dir/vendor"
+    cp -R "$src_dir/vendor/." "$dest_dir/vendor/"
+  fi
+}
+
 # ==============================================
 # Main Installation Process
 # ==============================================
@@ -61,18 +89,35 @@ main() {
   # Detect platform
   local os=$(detect_os)
   local pm=$(detect_package_manager)
+  local nu_config_dir=$(detect_nushell_config_dir)
+  local nu_generated_base="$DOTFILES/nushell"
 
   echo "==> Installing dotfiles..."
   echo "    Platform: $os"
   echo "    Package manager: $pm"
+  echo "    Nushell config dir: $nu_config_dir"
   echo ""
 
   # Step 1: Create symbolic links
   echo "==> Creating symbolic links..."
   mkdir -p "$CONFIG_DIR"
+  mkdir -p "$(dirname "$nu_config_dir")"
+
+  # Nushell config: platform-aware path
+  if [[ "$os" == "macos" ]]; then
+    echo "  → Copying Nushell config to $nu_config_dir"
+    sync_nushell_config "$DOTFILES/nushell" "$nu_config_dir"
+    nu_generated_base="$nu_config_dir"
+
+    # Keep ~/.config/nushell as compatibility path for tools/scripts
+    ln -sfn "$nu_config_dir" "$CONFIG_DIR/nushell"
+  else
+    ln -sfn "$DOTFILES/nushell" "$nu_config_dir"
+    # Keep ~/.config/nushell as compatibility path for tools/scripts
+    ln -sfn "$DOTFILES/nushell" "$CONFIG_DIR/nushell"
+  fi
 
   # Shell configs (always created)
-  ln -sfn "$DOTFILES/nushell" "$CONFIG_DIR/nushell"
   ln -sfn "$DOTFILES/zsh/zshrc" "$HOME/.zshrc"
 
   # Editor & tools (always created)
@@ -105,12 +150,12 @@ main() {
   echo "==> Setting up tools..."
 
   # Tool configs: format "tool|link_src|link_dest|config_cmd"
-  # Empty fields skip that action
+  # Empty fields skip that action bat -p --color=always
   local -a tool_configs=(
-    "starship|$DOTFILES/starship|$CONFIG_DIR/starship|mkdir -p \"$DOTFILES/nushell/vendor/autoload\" && starship init nu >\"$DOTFILES/nushell/vendor/autoload/starship.nu\""
-    "mise|||mise activate nu >\"$DOTFILES/nushell/mise.nu\""
-    "zoxide|||zoxide init nushell >\"$DOTFILES/nushell/zoxide.nu\""
-    "carapace|||carapace _carapace nushell >\"$DOTFILES/nushell/carapace.nu\""
+    "starship|$DOTFILES/starship|$CONFIG_DIR/starship|mkdir -p \"$nu_generated_base/vendor/autoload\" && starship init nu >\"$nu_generated_base/vendor/autoload/starship.nu\""
+    "mise|||mise activate nu >\"$nu_generated_base/mise.nu\""
+    "zoxide|||zoxide init nushell >\"$nu_generated_base/zoxide.nu\""
+    "carapace|||carapace _carapace nushell >\"$nu_generated_base/carapace.nu\""
     "eza|$DOTFILES/eza|$CONFIG_DIR/eza|"
   )
 
