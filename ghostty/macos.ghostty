@@ -1,3 +1,4 @@
 # macOS-specific Ghostty settings
 window-save-state = always
 macos-icon = xray
+macos-option-as-alt = true
