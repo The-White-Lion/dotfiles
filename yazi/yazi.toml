@@ -4,3 +4,8 @@ prepend_fetchers = [
     { id = "git", url = "*", run = "git" },
 ]
 prepend_previewers = [{ url = "*/", run = "eza-preview" }]
+
+edit = [
+    { run = "nvim %s", block = true, for = "unix" },
+    { run = "nvim %s", block = true, for = "macos" },
+]

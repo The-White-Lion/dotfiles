@@ -122,7 +122,9 @@ main() {
 
   # Editor & tools (always created)
   ln -sfn "$DOTFILES/vim" "$CONFIG_DIR/vim"
+  ln -sfn "$DOTFILES/nvim" "$CONFIG_DIR/nvim"
   ln -sfn "$DOTFILES/yazi" "$CONFIG_DIR/yazi"
+  ln -sfn "$DOTFILES/ghostty" "$CONFIG_DIR/ghostty"
 
   # Git config (optional)
   if [[ -f "$DOTFILES/git/gitconfig" ]]; then

@@ -1,0 +1,3 @@
+config-file = common.ghostty
+config-file = ?macos.ghostty
+config-file = ?linux.ghostty

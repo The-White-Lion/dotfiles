@@ -3,6 +3,7 @@ $env.config.buffer_editor = "vim"
 # alias
 alias ll = ls -l
 alias sshpi = ssh wolf@white-wolf
+alias vim = nvim
 
 def fzf_dir [] {
   ls -al
@@ -13,7 +14,18 @@ def fzf_dir [] {
   | str trim
 }
 
-# keybinding
+# Auto upgrade mise and clear cache
+def mise-upgrade [] {
+    mise upgrade
+    mise prune
+    mise cache clear
+}
+
+def chrome [] {
+  ^open -b "com.google.Chrome" --args "--disable-features=ExtensionManifestV2Unsupported,ExtensionManifestV2Disabled"
+}
+
+# Keybindings
 $env.config.keybindings ++= [
   {
     name: select_up

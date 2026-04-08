@@ -1,13 +1,6 @@
-# PATH
-$env.PATH = (
-  $env.PATH
-  | prepend "/opt/homebrew/bin"
-  | prepend "/usr/local/bin"
-)
-
 # global editor
-$env.EDITOR = "vim"
-$env.VISUAL = "vim"
+$env.EDITOR = "nvim"
+$env.VISUAL = "nvim"
 
 # proxies
 let local_ip: string = (
@@ -40,7 +33,19 @@ $env.TOPIARY_LANGUAGE_DIR = ($env.HOME | path join github topiary-nushell langua
 # eza config path
 $env.EZA_CONFIG_DIR = ($env.home | path join .config eza)
 
-# pnpm
+# pnpm config
 $env.PNPM_HOME = ($env.HOME | path join .local share pnpm)
-$env.PATH = ($env.PATH | split row (char esep) | prepend $env.PNPM_HOME )
-# pnpm end
+$env.PATH = ($env.PATH | prepend $env.PNPM_HOME)
+
+# rust config
+$env.CARGO_HOME = ($env.HOME | path join .cargo)
+$env.RUSTUP_HOME = ($env.HOME | path join .rustup)
+
+# PATH
+$env.PATH = (
+  $env.PATH
+  | prepend "/opt/homebrew/bin"
+  | prepend "/usr/local/bin"
+  | prepend ($env.CARGO_HOME | path join "bin")
+  | uniq
+)

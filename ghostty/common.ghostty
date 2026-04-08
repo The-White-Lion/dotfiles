@@ -1,0 +1,13 @@
+font-family = JetBrainsMono Nerd Font Mono
+font-size = 18
+
+background-opacity = 0.9
+
+window-padding-x = 10
+window-padding-y = 8
+
+theme = Gruvbox Material
+cursor-style = block
+cursor-style-blink = false
+
+command = /opt/homebrew/bin/nu
