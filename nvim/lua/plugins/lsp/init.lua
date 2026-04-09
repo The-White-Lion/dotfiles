@@ -74,21 +74,16 @@ return {
       end
 
       -- code lens
-      -- if opts.codelens.enabled then
-      --   snacks.util.lsp.on(
-      --     { method = "textDocument/codeLens" },
-      --     function(buffer)
-      --       vim.lsp.codelens.enable(true)
-      --       vim.api.nvim_create_autocmd(
-      --         { "BufEnter", "CursorHold", "InsertLeave" },
-      --         {
-      --           buffer = buffer,
-      --           callback = vim.lsp.codelens.refresh,
-      --         }
-      --       )
-      --     end
-      --   )
-      -- end
+      if opts.codelens.enabled then
+        snacks.util.lsp.on(
+          { method = "textDocument/codeLens" },
+          function(buffer)
+            vim.lsp.codelens.enable(true, {
+              bufnr = buffer
+            })
+          end
+        )
+      end
 
       -- lsp setup
       local lsp_configs = require("plugins.lsp.lsp_config")
