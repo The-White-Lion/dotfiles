@@ -13,6 +13,8 @@ return {
   },
   {
     "lukas-reineke/indent-blankline.nvim",
+    lazy = true,
+    event = "VeryLazy",
     main = "ibl",
     opts = {},
   },
@@ -24,7 +26,7 @@ return {
     opts = {
       options = {
         theme = "gruvbox-material",
-        component_separators = { left = "|", right = "|"},
+        -- component_separators = { left = "|", right = "|"},
         section_separators = { left = "", right = ""},
       },
       -- sections = {
@@ -97,6 +99,7 @@ return {
     dependencies = { "nvim-tree/nvim-web-devicons" },
     opts = {
       options = {
+        mode = "buffers",
         numbers = "none",
         close_command = "bdelete! %d",       -- can be a string | function, | false see "Mouse actions"
         right_mouse_command = "bdelete! %d", -- can be a string | function | false, see "Mouse actions"

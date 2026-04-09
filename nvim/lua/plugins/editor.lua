@@ -23,6 +23,12 @@ return {
     end,
   },
   {
+    "m4xshen/autoclose.nvim",
+    lazy = true,
+    event = "InsertEnter",
+    opts = {},
+  },
+  {
     -- todo: need to config
     "smoka7/hop.nvim",
     lazy = true,
@@ -71,7 +77,7 @@ return {
               staged = icons.git.Add,
               unmerged = icons.git.Unmerged,
               renamed = icons.git.Rename,
-              untracked = icons.git.Untracked,  
+              untracked = icons.git.Untracked,
               deleted = icons.git.Remove,
               ignored = icons.git.Ignore,
             },
@@ -188,5 +194,75 @@ return {
         },
       },
     },
-  }
+  },
+----------------------------------------
+--          Nvim-treesitter           --
+----------------------------------------
+  {
+    "nvim-treesitter/nvim-treesitter",
+    lazy = true,
+    event = "VeryLazy",
+    branch = "main",
+    cmd = { "TSUpdate", "TSInstall", "TSLog", "TSUninstall" },
+    build = ":TSUpdate",
+    -- vim.api.nvim_set_option_value("indentexpr", "v:lua.require'nvim-treesitter'.indentexpr()", {}),
+    main = "nvim-treesitter.config",
+    opts = {
+      indent = { enable = true },
+      highlight = { enable = true },
+      folds = { enable = true },
+      ensure_installed = {
+        "bash",
+        "c",
+        "diff",
+        "dockerfile",
+        "go",
+        "json",
+        "lua",
+        "markdown",
+        "markdown_inline",
+        "python",
+        "rust",
+        "toml",
+        "typescript",
+        "vim",
+        "vimdoc",
+        "yaml",
+      },
+    },
+    config = function (_, opts)
+      local ts = require("nvim-treesitter")
+      ts.setup(opts)
+
+      local get_installed = function()
+        local installed = {}
+        for _, lang in ipairs(ts.get_installed("parsers")) do
+          installed[lang] = true
+        end
+        return installed
+      end
+
+      local installed = get_installed()
+      local parsers = vim.tbl_filter(function(lang) return not installed[lang] end, opts.ensure_installed)
+      ts.install(parsers)
+
+      vim.api.nvim_create_autocmd("FileType", {
+        group = vim.api.nvim_create_augroup("treesitter", { clear = true }),
+        callback = function(args)
+          if opts.highlight.enable then
+            pcall(vim.treesitter.start, args.buf)
+          end
+          if opts.indent.enable then
+            vim.api.nvim_set_option_value("indentexpr", "v:lua.require'nvim-treesitter'.indentexpr()", { scope = "local" })
+          end
+          if opts.folds.enable then
+            vim.api.nvim_set_option_value("foldmethod", "expr", { scope = "local" })
+            vim.api.nvim_set_option_value("foldexpr", "v:lua.vim.treesitter.foldexpr()", { scope = "local" })
+          end
+        end,
+      })
+    end
+  },
+
+
 }

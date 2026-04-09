@@ -20,20 +20,20 @@ return {
   },
   {
     "folke/trouble.nvim",
-    -- init = function()
-    --   local function apply_trouble_highlights()
-    --     vim.api.nvim_set_hl(0, "TroubleNormal", { link = "Normal" })
-    --     vim.api.nvim_set_hl(0, "TroubleNormalNC", { link = "NormalNC" })
-    --   end
+    init = function()
+      local function apply_trouble_highlights()
+        vim.api.nvim_set_hl(0, "TroubleNormal", { link = "Normal" })
+        vim.api.nvim_set_hl(0, "TroubleNormalNC", { link = "NormalNC" })
+      end
 
-    --   apply_trouble_highlights()
+      apply_trouble_highlights()
 
-    --   vim.api.nvim_create_autocmd("ColorScheme", {
-    --     group = vim.api.nvim_create_augroup("trouble_highlights", { clear = true }),
-    --     callback = apply_trouble_highlights,
-    --     desc = "Keep Trouble window background aligned with regular splits",
-    --   })
-    -- end,
+      vim.api.nvim_create_autocmd("ColorScheme", {
+        group = vim.api.nvim_create_augroup("trouble_highlights", { clear = true }),
+        callback = apply_trouble_highlights,
+        desc = "Keep Trouble window background aligned with regular splits",
+      })
+    end,
     opts = {},
     cmd = "Trouble",
     keys = {

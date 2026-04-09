@@ -15,8 +15,6 @@ function M:init()
   vim.g.maplocalleader = " "
 
   require("core.options")
-  require("core.diagnostics"):setup()
-  require("core.lsp"):setup()
   require("keymap"):init()
   require("core.autocmds")
   require("core.lazy")

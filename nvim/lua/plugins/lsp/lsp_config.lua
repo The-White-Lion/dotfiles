@@ -1,17 +1,12 @@
-local M = {}
-
-local function has_executable(bin)
-  return vim.fn.executable(bin) == 1
-end
-
-function M:setup()
-  -- Start with Lua so the config can understand itself without extra plugins.
-  vim.lsp.config("lua_ls", {
+return {
+  lua_ls = {
     cmd = { "lua-language-server" },
     filetypes = { "lua" },
     root_markers = {
       ".luarc.json",
       ".luarc.jsonc",
+      ".luacheckrc",
+      ".stylua.toml",
       ".git",
     },
     settings = {
@@ -25,14 +20,11 @@ function M:setup()
         },
         hint = {
           enable = true,
+          setType = false,
+          paramType = true,
         },
       },
     },
-  })
-
-  if has_executable("lua-language-server") then
-    vim.lsp.enable("lua_ls")
-  end
-end
-
-return M
+  },
+  pyright = {}
+}
