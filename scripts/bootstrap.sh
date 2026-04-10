@@ -121,7 +121,6 @@ main() {
   ln -sfn "$DOTFILES/zsh/zshrc" "$HOME/.zshrc"
 
   # Editor & tools (always created)
-  ln -sfn "$DOTFILES/vim" "$CONFIG_DIR/vim"
   ln -sfn "$DOTFILES/nvim" "$CONFIG_DIR/nvim"
   ln -sfn "$DOTFILES/yazi" "$CONFIG_DIR/yazi"
   ln -sfn "$DOTFILES/ghostty" "$CONFIG_DIR/ghostty"
@@ -134,7 +133,7 @@ main() {
   # Step 2: Check dependencies
   echo ""
   echo "==> Checking dependencies..."
-  local tools=(starship mise zoxide carapace eza vim yazi nvim)
+  local tools=(starship mise zoxide carapace eza yazi nvim)
   local missing=0
 
   for tool in "${tools[@]}"; do
