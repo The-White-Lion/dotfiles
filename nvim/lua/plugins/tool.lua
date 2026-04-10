@@ -13,10 +13,10 @@ return {
         "ToggleTermSendCurrentLine",
         "ToggleTermSendVisualSelection",
       },
-      config = function ()
-        require("toggleterm").setup{}
-      end,
-    }
+      opts = {
+        shade_terminals = false,
+      },
+    },
   },
   {
     "folke/trouble.nvim",
@@ -97,7 +97,7 @@ return {
         "<cmd>Yazi toggle<cr>",
         desc = "Resume the last yazi session",
       },
-    }
+    },
   },
   {
     "folke/which-key.nvim",
@@ -122,11 +122,46 @@ return {
     event = "VeryLazy",
     opts = {},
     keys = {
-      { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
-      { "S", mode = { "n", "x", "o" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
-      { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
-      { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
-      { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
+      {
+        "s",
+        mode = { "n", "x", "o" },
+        function()
+          require("flash").jump()
+        end,
+        desc = "Flash",
+      },
+      {
+        "S",
+        mode = { "n", "x", "o" },
+        function()
+          require("flash").treesitter()
+        end,
+        desc = "Flash Treesitter",
+      },
+      {
+        "r",
+        mode = "o",
+        function()
+          require("flash").remote()
+        end,
+        desc = "Remote Flash",
+      },
+      {
+        "R",
+        mode = { "o", "x" },
+        function()
+          require("flash").treesitter_search()
+        end,
+        desc = "Treesitter Search",
+      },
+      {
+        "<c-s>",
+        mode = { "c" },
+        function()
+          require("flash").toggle()
+        end,
+        desc = "Toggle Flash Search",
+      },
     },
   },
   {
@@ -138,7 +173,7 @@ return {
       current_line_blame = true, -- Toggle with `:Gitsigns toggle_current_line_blame`
       current_line_blame_opts = {
         virt_text = true,
-        virt_text_pos = 'eol', -- 'eol' | 'overlay' | 'right_align'
+        virt_text_pos = "eol", -- 'eol' | 'overlay' | 'right_align'
         delay = 1000,
         ignore_whitespace = false,
         virt_text_priority = 100,
@@ -146,9 +181,9 @@ return {
       },
     },
   },
----------------------------------------------------------
---                      Telescope                      --
----------------------------------------------------------
+  ---------------------------------------------------------
+  --                      Telescope                      --
+  ---------------------------------------------------------
   {
     "nvim-telescope/telescope.nvim",
     lazy = true,
@@ -171,14 +206,39 @@ return {
           "--with-filename",
           "--line-number",
           "--column",
-          "--smart-case"
+          "--smart-case",
         },
         file_ignore_patterns = {
-          ".git/", "__pycache__/", ".cache/",
-          "build/", "%.class", "%.pdf", "%.mkv",
-          "%.mp4", "%.zip",
+          ".git/",
+          "__pycache__/",
+          ".cache/",
+          "build/",
+          "%.class",
+          "%.pdf",
+          "%.mkv",
+          "%.mp4",
+          "%.zip",
         },
       },
     },
+  },
+  {
+    "MeanderingProgrammer/render-markdown.nvim",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      "nvim-tree/nvim-web-devicons",
+      {
+        "3rd/image.nvim",
+        build = false,
+        lazy = true,
+        opts = {
+          processor = "magick_cli",
+          window_overlap_clear_enabled = true,
+        },
+      },
+    },
+    lazy = true,
+    ft = { "markdown", "codecompanion" },
+    opts = {},
   },
 }

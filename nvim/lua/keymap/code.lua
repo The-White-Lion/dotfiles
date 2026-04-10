@@ -2,6 +2,10 @@ local util = require("keymap.util")
 
 return {
   n = {
+    gd = { vim.lsp.buf.definition, { desc = "Go to definition" } },
+    gD = { vim.lsp.buf.declaration, { desc = "Go to declaration" } },
+    gi = { vim.lsp.buf.implementation, { desc = "Go to implementation" } },
+    gr = { vim.lsp.buf.references, { desc = "List references" } },
     ["[d"] = { util.diagnostic_jump(-1), { desc = "Previous diagnostic" } },
     ["]d"] = { util.diagnostic_jump(1), { desc = "Next diagnostic" } },
     ["<leader>lq"] = {
@@ -11,11 +15,7 @@ return {
       { desc = "Open diagnostic location list" },
     },
     ["<leader>k"] = { vim.lsp.buf.hover, { desc = "LSP hover" } },
-    gd = { vim.lsp.buf.definition, { desc = "Go to definition" } },
-    gD = { vim.lsp.buf.declaration, { desc = "Go to declaration" } },
-    gi = { vim.lsp.buf.implementation, { desc = "Go to implementation" } },
-    gr = { vim.lsp.buf.references, { desc = "List references" } },
-    ["<leader>ln"] = { vim.lsp.buf.rename, { desc = "Rename symbol" } },
+    ["<leader>lr"] = { vim.lsp.buf.rename, { desc = "Rename symbol" } },
     ["<leader>la"] = { vim.lsp.buf.code_action, { desc = "Code action" } },
     ["<leader>lf"] = {
       function()

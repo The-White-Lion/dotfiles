@@ -7,7 +7,7 @@ return {
     ["k"] = { "v:count == 0 ? 'gk' : 'k'", { desc = "Move up by display line", expr = true } },
     ["0"] = { "g0", { desc = "Jump to the start of the display line" } },
     ["$"] = { "g$", { desc = "Jump to the end of the display line" } },
-  
+
     -- windows navigation
     ["<C-h>"] = { "<C-w><C-h>", { desc = "Focus left window" } },
     ["<C-j>"] = { "<C-w><C-j>", { desc = "Focus lower window" } },
@@ -36,24 +36,31 @@ return {
 
     -- tabs navigation
     ["<leader>tt"] = { "<Cmd>tabnew<CR>", { desc = "New tab" } },
-    ["<leader>to"] = { "<Cmd>tabonly<CR>", { desc = "Close other tabs" } },
-    ["<leader>tc"] = { "<Cmd>tabclose<CR>", { desc = "Close current tab" } },
-    ["<leader>tm"] = { "<Cmd>tabmove<CR>", { desc = "Move current tab" } },
     ["<leader>tp"] = { "<Cmd>tabprev<CR>", { desc = "Previous tab" } },
     ["<leader>tn"] = { "<Cmd>tabnext<CR>", { desc = "Next tab" } },
 
-  -- nvim tree
-    ["<leader>e"] = { "<Cmd>NvimTreeToggle<CR>", { desc = "Toggle file explorer" } },
+    -- nvim tree
+    ["<leader>e"] = { "<Cmd>NvimTreeFindFileToggle<CR>", { desc = "Toggle file explorer" } },
 
-  -- telescope
+    -- telescope
     ["<leader>ff"] = { "<Cmd>Telescope find_files<CR>", { desc = "Find files" } },
     ["<leader>fg"] = { "<Cmd>Telescope live_grep<CR>", { desc = "Live grep" } },
     ["<leader>fb"] = { "<Cmd>Telescope buffers<CR>", { desc = "Find buffers" } },
     ["<leader>fh"] = { "<Cmd>Telescope help_tags<CR>", { desc = "Find help tags" } },
-  },
 
+    -- toggleterm
+    ["<C-\\>"] = { "<Cmd>ToggleTerm<CR>", { desc = "terminal: Toggle" } },
+  },
+  i = {
+    ["<C-\\>"] = { "<Esc><Cmd>ToggleTerm<CR>", { desc = "terminal: Toggle" } },
+  },
   v = {
     ["j"] = { "gj", { desc = "Move down by display line" } },
     ["k"] = { "gk", { desc = "Move up by display line" } },
+  },
+
+  t = {
+    ["<Esc><Esc>"] = { "<C-\\><C-n>", { desc = "Exit terminal mode" } },
+    ["<C-\\>"] = { "<Cmd>ToggleTerm<CR>", { desc = "terminal: Toggle" } },
   },
 }

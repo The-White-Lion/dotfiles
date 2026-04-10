@@ -23,20 +23,26 @@ return {
     end,
   },
   {
+    "kylechui/nvim-surround",
+    version = "^4.0.0", -- Use for stability; omit to use `main` branch for the latest features
+    event = "VeryLazy",
+    opts = {},
+  },
+  {
     "m4xshen/autoclose.nvim",
     lazy = true,
     event = "InsertEnter",
     opts = {},
   },
   {
-    -- todo: need to config
+    -- TODO: need to config
     "smoka7/hop.nvim",
     lazy = true,
     version = "*",
     event = { "CursorHold", "CursorHoldI" },
     opts = {
-      keys = 'etovxqpdygfblzhckisuran'
-    }
+      keys = "etovxqpdygfblzhckisuran",
+    },
   },
   {
     "nvim-tree/nvim-tree.lua",
@@ -155,13 +161,13 @@ return {
           open = function()
             return vim.b.buftype == "" and "Trouble symbols toggle win.position=right"
           end,
-          filter = function (_, win)
+          filter = function(_, win)
             local tw = vim.w[win].trouble
             return tw
-              and tw.position == "right"
-              and tw.type == "split"
-              and tw.relative == "editor"
-              and not vim.w[win].trouble_preview
+                and tw.position == "right"
+                and tw.type == "split"
+                and tw.relative == "editor"
+                and not vim.w[win].trouble_preview
           end,
         },
       },
@@ -195,9 +201,9 @@ return {
       },
     },
   },
-----------------------------------------
---          Nvim-treesitter           --
-----------------------------------------
+  ----------------------------------------
+  --          Nvim-treesitter           --
+  ----------------------------------------
   {
     "nvim-treesitter/nvim-treesitter",
     lazy = true,
@@ -230,7 +236,7 @@ return {
         "yaml",
       },
     },
-    config = function (_, opts)
+    config = function(_, opts)
       local ts = require("nvim-treesitter")
       ts.setup(opts)
 
@@ -243,7 +249,9 @@ return {
       end
 
       local installed = get_installed()
-      local parsers = vim.tbl_filter(function(lang) return not installed[lang] end, opts.ensure_installed)
+      local parsers = vim.tbl_filter(function(lang)
+        return not installed[lang]
+      end, opts.ensure_installed)
       ts.install(parsers)
 
       vim.api.nvim_create_autocmd("FileType", {
@@ -253,7 +261,11 @@ return {
             pcall(vim.treesitter.start, args.buf)
           end
           if opts.indent.enable then
-            vim.api.nvim_set_option_value("indentexpr", "v:lua.require'nvim-treesitter'.indentexpr()", { scope = "local" })
+            vim.api.nvim_set_option_value(
+              "indentexpr",
+              "v:lua.require'nvim-treesitter'.indentexpr()",
+              { scope = "local" }
+            )
           end
           if opts.folds.enable then
             vim.api.nvim_set_option_value("foldmethod", "expr", { scope = "local" })
@@ -261,8 +273,6 @@ return {
           end
         end,
       })
-    end
+    end,
   },
-
-
 }

@@ -4,7 +4,6 @@ local keymap_files = {
   require("keymap.editing"),
   require("keymap.navigation"),
   require("keymap.code"),
-  require("keymap.terminal"),
 }
 
 local function apply_keymap(mode, lhs, mapping)

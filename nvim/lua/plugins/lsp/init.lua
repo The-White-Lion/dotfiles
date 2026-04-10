@@ -1,23 +1,20 @@
 local icons = {
   ui = require("utils.icons").ui,
   diagnostics = require("utils.icons").diagnostics,
-  misc = require("utils.icons").misc
+  misc = require("utils.icons").misc,
 }
 
 return {
   {
     "neovim/nvim-lspconfig",
-    -- lazy = true,
-    -- event = "VeryLazy",
+    lazy = true,
+    event = "VeryLazy",
     dependencies = {
       { "mason-org/mason.nvim" },
       { "mason-org/mason-lspconfig.nvim" },
       { "folke/neoconf.nvim" },
       { "folke/snacks.nvim" },
-      -- {
-      --   "Jint-lzxy/lsp_signature.nvim",
-      --   config = require("completion.lsp-signature"),
-      -- },
+      { "Jint-lzxy/lsp_signature.nvim" },
     },
     opts = {
       diagnostics = {
@@ -25,7 +22,7 @@ return {
         virtual_text = {
           spacing = 4,
           prefix = icons.diagnostics.Prefix,
-          source = "if_many"
+          source = "if_many",
         },
         severity_sort = true,
         signs = {
@@ -41,7 +38,7 @@ return {
         enabled = true,
         exclude = {},
       },
-      -- Todo: need to config codelens
+      -- TODO: need to config codelens
       codelens = { enabled = true },
       folds = { enabled = true },
     },
@@ -50,48 +47,56 @@ return {
 
       -- inlay hints
       if opts.inlay_hints.enabled then
-        snacks.util.lsp.on(
-          { method = "textDocument/inlayhint" },
-          function(buffer)
-            if vim.api.nvim_buf_is_valid(buffer)
+        snacks.util.lsp.on({ method = "textDocument/inlayHint" }, function(buffer)
+          if
+              vim.api.nvim_buf_is_valid(buffer)
               and vim.bo[buffer].buftype == ""
               and not vim.tbl_contains(opts.inlay_hints.exclude, vim.bo[buffer].filetype)
-            then
-              vim.lsp.inlay_hint.enable(true, { bufnr = buffer })
-            end
+          then
+            vim.defer_fn(function()
+              if vim.api.nvim_buf_is_valid(buffer) then
+                vim.lsp.inlay_hint.enable(true, { bufnr = buffer })
+                vim.cmd("redraw")
+              end
+            end, 100)
           end
-        )
+        end)
       end
 
       -- folds
       if opts.folds.enabled then
-        snacks.util.lsp.on(
-          { method = "textDocument/foldingRange" },
-          function()
-            vim.api.nvim_set_option_value("foldexpr", "v:lua.vim.lsp.foldexpr()", { scope = "local" })
-          end
-        )
+        snacks.util.lsp.on({ method = "textDocument/foldingRange" }, function()
+          vim.api.nvim_set_option_value("foldexpr", "v:lua.vim.lsp.foldexpr()", { scope = "local" })
+        end)
       end
 
       -- code lens
       if opts.codelens.enabled then
-        snacks.util.lsp.on(
-          { method = "textDocument/codeLens" },
-          function(buffer)
-            vim.lsp.codelens.enable(true, {
-              bufnr = buffer
-            })
-          end
-        )
+        snacks.util.lsp.on({ method = "textDocument/codeLens" }, function(buffer)
+          vim.lsp.codelens.enable(true, {
+            bufnr = buffer,
+          })
+        end)
       end
+
+      -- diagnostic config
+      vim.diagnostic.config(vim.deepcopy(opts.diagnostics))
+
+      -- use blink.cmp capabilities to make lsp better
+      vim.lsp.config("*", require("blink.cmp").get_lsp_capabilities())
 
       -- lsp setup
       local lsp_configs = require("plugins.lsp.lsp_config")
       for lsp_server, lsp_config in pairs(lsp_configs) do
+        lsp_config = vim.tbl_extend("force", lsp_config, {
+          on_attach = function(client)
+            client.server_capabilities.doucumentFormattingProvider = false
+            client.server_capabilities.doucumentRangeFormattingProvider = false
+          end,
+        })
         vim.lsp.config(lsp_server, lsp_config)
         vim.lsp.enable(lsp_server)
       end
-      vim.diagnostic.config(vim.deepcopy(opts.diagnostics))
     end,
   },
   {
@@ -107,7 +112,7 @@ return {
           package_uninstalled = icons.misc.Ghost,
         },
       },
-      },
+    },
   },
   {
     "mason-org/mason-lspconfig.nvim",
@@ -118,6 +123,7 @@ return {
     },
   },
   {
+    -- TODO: config this better
     "nvimdev/lspsaga.nvim",
     lazy = true,
     event = "LspAttach",
@@ -126,4 +132,48 @@ return {
     },
     opts = {},
   },
+  {
+    "nvimtools/none-ls.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      {
+        "jay-babu/mason-null-ls.nvim",
+        lazy = true,
+        event = "LspAttach",
+        dependencies = {
+          "williamboman/mason.nvim",
+          "nvimtools/none-ls.nvim",
+        },
+        opts = {
+          ensure_installed = vim.tbl_keys(require("plugins.lsp.null_ls_config")),
+          automatic_installation = false,
+        },
+      },
+    },
+    lazy = true,
+    event = "VeryLazy",
+    config = function()
+      local null_ls = require("null-ls")
+      null_ls.setup({
+        sources = {
+          null_ls.builtins.formatting.stylua,
+        },
+      })
+    end,
+  },
+  -- {
+  --   "Jint-lzxy/lsp_signature.nvim",
+  --   lazy = true,
+  --   event = "LspAttach",
+  --   opts = {
+  --     bind = true,
+  --     floating_window = true,
+  --     floating_window_above_cur_line = true,
+  --     hi_parameter = "Search",
+  --     hint_enable = true,
+  --     transparency = nil, -- disabled by default, allow floating win transparent value 1~100
+  --     wrap = true,
+  --     handler_opts = { border = "rounded" }, -- double, rounded, single, shadow, none, or a table of borders
+  --   },
+  -- }
 }

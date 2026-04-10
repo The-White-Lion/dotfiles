@@ -30,10 +30,10 @@ function M:setup()
     end
   end
 
-require_dir("plugins")
+  require_dir("plugins")
   vim.opt.rtp:prepend(lazypath)
 
-  require("lazy").setup({require("plugins")})
+  require("lazy").setup({ require("plugins") })
 end
 
 return M
