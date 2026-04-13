@@ -27,4 +27,6 @@ return {
     },
   },
   pyright = {},
+  rust_analyzer = {},
+  gopls = {},
 }

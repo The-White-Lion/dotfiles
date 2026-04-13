@@ -1,4 +1,7 @@
-local ui = require("utils.icons").ui
+local icons = {
+  ui = require("utils.icons").ui,
+  documents = require("utils.icons").documents,
+}
 
 return {
   {
@@ -69,9 +72,7 @@ return {
   {
     "folke/noice.nvim",
     event = "VeryLazy",
-    opts = {
-      -- add any options here
-    },
+    opts = {},
     dependencies = {
       -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
       "MunifTanjim/nui.nvim",
@@ -136,7 +137,7 @@ return {
         offsets = {
           {
             filetype = "NvimTree",
-            text = " " .. ui.Tree .. " NvimTree",
+            text = " " .. icons.ui.Tree .. " NvimTree",
             text_align = "left",
             separator = true,
           },
@@ -184,6 +185,10 @@ return {
         "\n",
         {}
       )
+      dashboard.section.buttons.val = {
+        dashboard.button("SPC f f", icons.documents.FileFind .. "  Find files"),
+        dashboard.button("SPC f g", icons.documents.Word .. "  Find words"),
+      }
       alpha.setup(dashboard.opts)
     end,
   },

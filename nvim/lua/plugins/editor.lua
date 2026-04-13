@@ -164,10 +164,10 @@ return {
           filter = function(_, win)
             local tw = vim.w[win].trouble
             return tw
-                and tw.position == "right"
-                and tw.type == "split"
-                and tw.relative == "editor"
-                and not vim.w[win].trouble_preview
+              and tw.position == "right"
+              and tw.type == "split"
+              and tw.relative == "editor"
+              and not vim.w[win].trouble_preview
           end,
         },
       },
@@ -206,8 +206,16 @@ return {
   ----------------------------------------
   {
     "nvim-treesitter/nvim-treesitter",
-    lazy = true,
-    event = "VeryLazy",
+    dependencies = {
+      {
+        "hiphish/rainbow-delimiters.nvim",
+        lazy = true,
+      },
+      {
+        "nvim-treesitter/nvim-treesitter-context",
+      },
+    },
+    lazy = false,
     branch = "main",
     cmd = { "TSUpdate", "TSInstall", "TSLog", "TSUninstall" },
     build = ":TSUpdate",
@@ -273,6 +281,14 @@ return {
           end
         end,
       })
+    end,
+  },
+  {
+    "andymass/vim-matchup",
+    init = function()
+      vim.g.matchup_matchparen_deferred = 1
+      vim.g.matchup_matchparen_hi_surround_always = 1
+      vim.g.matchup_matchparen_offscreen = { method = "popup" }
     end,
   },
 }

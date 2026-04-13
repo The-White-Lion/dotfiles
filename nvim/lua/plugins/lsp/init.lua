@@ -49,9 +49,9 @@ return {
       if opts.inlay_hints.enabled then
         snacks.util.lsp.on({ method = "textDocument/inlayHint" }, function(buffer)
           if
-              vim.api.nvim_buf_is_valid(buffer)
-              and vim.bo[buffer].buftype == ""
-              and not vim.tbl_contains(opts.inlay_hints.exclude, vim.bo[buffer].filetype)
+            vim.api.nvim_buf_is_valid(buffer)
+            and vim.bo[buffer].buftype == ""
+            and not vim.tbl_contains(opts.inlay_hints.exclude, vim.bo[buffer].filetype)
           then
             vim.defer_fn(function()
               if vim.api.nvim_buf_is_valid(buffer) then
@@ -82,18 +82,11 @@ return {
       -- diagnostic config
       vim.diagnostic.config(vim.deepcopy(opts.diagnostics))
 
-      -- use blink.cmp capabilities to make lsp better
-      vim.lsp.config("*", require("blink.cmp").get_lsp_capabilities())
-
       -- lsp setup
       local lsp_configs = require("plugins.lsp.lsp_config")
       for lsp_server, lsp_config in pairs(lsp_configs) do
-        lsp_config = vim.tbl_extend("force", lsp_config, {
-          on_attach = function(client)
-            client.server_capabilities.doucumentFormattingProvider = false
-            client.server_capabilities.doucumentRangeFormattingProvider = false
-          end,
-        })
+        -- use blink.cmp capabilities to make lsp better
+        lsp_config["capabilities"] = require("blink.cmp").get_lsp_capabilities()
         vim.lsp.config(lsp_server, lsp_config)
         vim.lsp.enable(lsp_server)
       end
@@ -136,30 +129,44 @@ return {
     "nvimtools/none-ls.nvim",
     dependencies = {
       "nvim-lua/plenary.nvim",
-      {
-        "jay-babu/mason-null-ls.nvim",
-        lazy = true,
-        event = "LspAttach",
-        dependencies = {
-          "williamboman/mason.nvim",
-          "nvimtools/none-ls.nvim",
-        },
-        opts = {
-          ensure_installed = vim.tbl_keys(require("plugins.lsp.null_ls_config")),
-          automatic_installation = false,
-        },
-      },
     },
     lazy = true,
     event = "VeryLazy",
-    config = function()
-      local null_ls = require("null-ls")
-      null_ls.setup({
-        sources = {
-          null_ls.builtins.formatting.stylua,
-        },
-      })
-    end,
+    main = "null-ls",
+    opts = {
+      on_attach = function(_, bufnr)
+        local formatting_group = vim.api.nvim_create_augroup("NullLsFormatting", { clear = true })
+        vim.api.nvim_clear_autocmds({ group = formatting_group, buffer = bufnr })
+        vim.api.nvim_create_autocmd("BufWritePre", {
+          group = formatting_group,
+          buffer = bufnr,
+          callback = function()
+            vim.lsp.buf.format({
+              bufnr = bufnr,
+              async = false,
+              filter = function(format_client)
+                return format_client.name == "null-ls"
+              end,
+            })
+          end,
+        })
+      end,
+    },
+  },
+  {
+    "jay-babu/mason-null-ls.nvim",
+    lazy = true,
+    event = "LspAttach",
+    dependencies = {
+      "williamboman/mason.nvim",
+      "nvimtools/none-ls.nvim",
+    },
+    opts = {
+      ensure_installed = vim.tbl_keys(require("plugins.lsp.null_ls_config")),
+      automatic_installation = false,
+      automatic_setup = true,
+      handlers = {},
+    },
   },
   -- {
   --   "Jint-lzxy/lsp_signature.nvim",

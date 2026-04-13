@@ -1,6 +1,7 @@
 local ui = require("utils.icons").ui
 
 return {
+  { "Bekaboo/dropbar.nvim", opts = {} },
   {
     {
       "akinsho/toggleterm.nvim",
@@ -74,7 +75,7 @@ return {
     version = "*", -- use the latest stable version
     event = "VeryLazy",
     dependencies = {
-      { "nvim-lua/plenary.nvim", lazy = true },
+      { "nvim-lua/plenary.nvim" },
     },
     opts = {
       highlight_hovered_buffers_in_same_directory = false,
@@ -181,6 +182,26 @@ return {
       },
     },
   },
+  {
+    "MagicDuck/grug-far.nvim",
+    layz = true,
+    cmd = "GrugFar",
+    opts = {
+      engine = "ripgrep",
+      engines = {
+        ripgrep = {
+          path = "rg",
+          showReplaceDiff = true,
+          placeholders = {
+            enabled = true,
+          },
+        },
+      },
+      transient = true,
+      icons = { enabled = true },
+      disableBufferLineNumbers = true,
+    },
+  },
   ---------------------------------------------------------
   --                      Telescope                      --
   ---------------------------------------------------------
@@ -222,23 +243,27 @@ return {
       },
     },
   },
+  ---------------------------------------------------------
+  --                  Markdown preview                   --
+  ---------------------------------------------------------
   {
     "MeanderingProgrammer/render-markdown.nvim",
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
       "nvim-tree/nvim-web-devicons",
-      {
-        "3rd/image.nvim",
-        build = false,
-        lazy = true,
-        opts = {
-          processor = "magick_cli",
-          window_overlap_clear_enabled = true,
-        },
-      },
+      "3rd/image.nvim",
     },
     lazy = true,
     ft = { "markdown", "codecompanion" },
     opts = {},
+  },
+  {
+    "3rd/image.nvim",
+    build = false,
+    lazy = true,
+    opts = {
+      processor = "magick_cli",
+      window_overlap_clear_enabled = true,
+    },
   },
 }

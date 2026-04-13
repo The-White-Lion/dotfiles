@@ -58,7 +58,8 @@ return {
     FileTree = "󰙅",
     Import = "",
     Symlink = "",
-    Word = "",
+    Word = "󰈬",
+    Word_alt = "",
   },
   ui = {
     ArrowCircleDown = "",

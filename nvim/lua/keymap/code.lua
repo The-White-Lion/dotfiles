@@ -19,9 +19,13 @@ return {
     ["<leader>la"] = { vim.lsp.buf.code_action, { desc = "Code action" } },
     ["<leader>lf"] = {
       function()
-        vim.lsp.buf.format({ async = true })
+        vim.lsp.buf.format({
+          filter = function(client)
+            return client.name == "null-ls"
+          end,
+        })
       end,
-      { desc = "Format buffer" },
+      { desc = "Format with none-ls only" },
     },
     ["<leader>le"] = { vim.diagnostic.open_float, { desc = "Line diagnostics" } },
   },
