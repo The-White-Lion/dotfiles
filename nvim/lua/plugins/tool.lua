@@ -1,6 +1,7 @@
 local ui = require("utils.icons").ui
 
 return {
+  -- TODO: only show in buftype == ""
   { "Bekaboo/dropbar.nvim", opts = {} },
   {
     {

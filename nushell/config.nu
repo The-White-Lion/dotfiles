@@ -3,8 +3,14 @@ $env.config.buffer_editor = "vim"
 # alias
 alias ll = ls -l
 alias sshpi = ssh wolf@white-wolf
-alias vim = nvim
+alias vim = ^nvim
+alias trzh = ^trans :zh
+alias tren = ^trans :en
 
+# custom command
+def trclip [] {
+  ^pbpaste | ^trans :zh
+}
 def fzf_dir [] {
   ls -al
   | each {|row| $row.name }

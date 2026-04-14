@@ -10,6 +10,7 @@ return concat_specs(
   require("plugins.ui"),
   require("plugins.tool"),
   require("plugins.editor"),
+  require("plugins.completion"),
   require("plugins.lsp"),
-  require("plugins.completion")
+  require("plugins.dap")
 )

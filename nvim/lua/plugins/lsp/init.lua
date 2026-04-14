@@ -4,6 +4,8 @@ local icons = {
   misc = require("utils.icons").misc,
 }
 
+local formatting_group = vim.api.nvim_create_augroup("NullLsFormatting", {})
+
 return {
   {
     "neovim/nvim-lspconfig",
@@ -116,7 +118,7 @@ return {
     },
   },
   {
-    -- TODO: config this better
+    -- TODO:config
     "nvimdev/lspsaga.nvim",
     lazy = true,
     event = "LspAttach",
@@ -134,8 +136,8 @@ return {
     event = "VeryLazy",
     main = "null-ls",
     opts = {
+      -- debug = true,
       on_attach = function(_, bufnr)
-        local formatting_group = vim.api.nvim_create_augroup("NullLsFormatting", { clear = true })
         vim.api.nvim_clear_autocmds({ group = formatting_group, buffer = bufnr })
         vim.api.nvim_create_autocmd("BufWritePre", {
           group = formatting_group,
