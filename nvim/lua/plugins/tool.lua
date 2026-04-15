@@ -245,7 +245,7 @@ return {
     },
   },
   ---------------------------------------------------------
-  --                  Markdown preview                   --
+  --                  Markdown Preview                   --
   ---------------------------------------------------------
   {
     "MeanderingProgrammer/render-markdown.nvim",
@@ -265,6 +265,29 @@ return {
     opts = {
       processor = "magick_cli",
       window_overlap_clear_enabled = true,
+    },
+  },
+  ---------------------------------------------------------
+  --                    AI Tools                         --
+  ---------------------------------------------------------
+  {
+    "olimorris/codecompanion.nvim",
+    lazy = true,
+    event = "VeryLazy",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+      "zbirenbaum/copilot.lua",
+    },
+    opts = {
+      strategies = {
+        chat = { adapter = "copilot" },
+        inline = { adapter = "copilot" },
+      },
+      opts = {
+        language = "Chinese",
+        log_level = "ERROR",
+      },
     },
   },
 }

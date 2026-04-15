@@ -29,8 +29,8 @@ return {
     opts = {
       options = {
         theme = "gruvbox-material",
-        --component_separators = { left = ui.DividerLeft right = ui.DividerRight },
-        -- section_separators = { left = ui.DividerLeft, right = ui.DividerRight },
+        component_separators = { left = "", right = "" },
+        section_separators = { left = "", right = "" },
       },
       -- sections = {
       --   lualine_a = {'mode'},

@@ -1,5 +1,16 @@
 return {
   n = {
+    -- nvim-tree
+    ["<leader>e"] = {
+      function()
+        require("edgy").toggle("left")
+      end,
+      { desc = "filetree: Toggle" },
+    },
+    ["<leader>nf"] = { "<Cmd>NvimTreeFindFileToggle<CR>", { desc = "filetree: Find file" } },
+    ["<leader>nr"] = { "<Cmd>NvimTreeRefresh<CR>", { desc = "filetree: Refresh" } },
+
+    -- Dap
     ["<F6>"] = {
       function()
         require("dap").continue()
@@ -48,5 +59,17 @@ return {
       end,
       { desc = "debug: close debug UI" },
     },
+    -- CodeCompanion
+    ["<leader>cc"] = {
+      function()
+        require("edgy").toggle("right")
+      end,
+      { desc = "codecompanion: Toggle" },
+    },
+    ["<leader>ck"] = { "<Cmd>CodeCompanionActions<CR>", { desc = "codecompanion: Actions" } },
+  },
+  v = {
+    -- CodeCompanion
+    ["<leader>ca"] = { "<Cmd>CodeCompanionChat Add<CR>", { desc = "codecompanion: Add selection to chat" } },
   },
 }

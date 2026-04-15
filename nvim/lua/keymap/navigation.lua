@@ -40,7 +40,6 @@ return {
     ["<leader>tn"] = { "<Cmd>tabnext<CR>", { desc = "Next tab" } },
 
     -- nvim tree
-    ["<leader>e"] = { "<Cmd>NvimTreeFindFileToggle<CR>", { desc = "Toggle file explorer" } },
 
     -- telescope
     ["<leader>ff"] = { "<Cmd>Telescope find_files<CR>", { desc = "Find files" } },
