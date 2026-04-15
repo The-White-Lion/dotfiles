@@ -1,32 +1,32 @@
 local util = require("keymap.util")
 
 return {
-  n = {
-    gd = { vim.lsp.buf.definition, { desc = "Go to definition" } },
-    gD = { vim.lsp.buf.declaration, { desc = "Go to declaration" } },
-    gi = { vim.lsp.buf.implementation, { desc = "Go to implementation" } },
-    gr = { vim.lsp.buf.references, { desc = "List references" } },
-    ["[d"] = { util.diagnostic_jump(-1), { desc = "Previous diagnostic" } },
-    ["]d"] = { util.diagnostic_jump(1), { desc = "Next diagnostic" } },
-    ["<leader>lq"] = {
-      function()
-        vim.diagnostic.setloclist({ open = true })
-      end,
-      { desc = "Open diagnostic location list" },
-    },
-    ["<leader>k"] = { vim.lsp.buf.hover, { desc = "LSP hover" } },
-    ["<leader>lr"] = { vim.lsp.buf.rename, { desc = "Rename symbol" } },
-    ["<leader>la"] = { vim.lsp.buf.code_action, { desc = "Code action" } },
-    ["<leader>lf"] = {
-      function()
-        vim.lsp.buf.format({
-          filter = function(client)
-            return client.name == "null-ls"
-          end,
-        })
-      end,
-      { desc = "Format with none-ls only" },
-    },
-    ["<leader>le"] = { vim.diagnostic.open_float, { desc = "Line diagnostics" } },
+  gd = { mode = "n", rhs = vim.lsp.buf.definition, opts = { desc = "Go to definition" } },
+  gD = { mode = "n", rhs = vim.lsp.buf.declaration, opts = { desc = "Go to declaration" } },
+  gi = { mode = "n", rhs = vim.lsp.buf.implementation, opts = { desc = "Go to implementation" } },
+  gr = { mode = "n", rhs = vim.lsp.buf.references, opts = { desc = "List references" } },
+  ["[d"] = { mode = "n", rhs = util.diagnostic_jump(-1), opts = { desc = "Previous diagnostic" } },
+  ["]d"] = { mode = "n", rhs = util.diagnostic_jump(1), opts = { desc = "Next diagnostic" } },
+  ["<leader>lq"] = {
+    mode = "n",
+    rhs = function()
+      vim.diagnostic.setloclist({ open = true })
+    end,
+    opts = { desc = "Open diagnostic location list" },
   },
+  ["<leader>k"] = { mode = "n", rhs = vim.lsp.buf.hover, opts = { desc = "LSP hover" } },
+  ["<leader>lr"] = { mode = "n", rhs = vim.lsp.buf.rename, opts = { desc = "Rename symbol" } },
+  ["<leader>la"] = { mode = "n", rhs = vim.lsp.buf.code_action, opts = { desc = "Code action" } },
+  ["<leader>lf"] = {
+    mode = "n",
+    rhs = function()
+      vim.lsp.buf.format({
+        filter = function(client)
+          return client.name == "null-ls"
+        end,
+      })
+    end,
+    opts = { desc = "Format with none-ls only" },
+  },
+  ["<leader>le"] = { mode = "n", rhs = vim.diagnostic.open_float, opts = { desc = "Line diagnostics" } },
 }
