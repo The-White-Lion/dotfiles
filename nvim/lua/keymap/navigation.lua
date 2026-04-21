@@ -56,5 +56,5 @@ return {
 
   -- toggleterm
   ["<C-\\>"] = { mode = { "n", "i", "t" }, rhs = "<Esc><Cmd>ToggleTerm<CR>", opts = { desc = "terminal: Toggle" } },
-  ["<Esc><Esc>"] = { mode = "n", rhs = "<C-\\><C-n>", opts = { desc = "Exit terminal mode" } },
+  ["<Esc><Esc>"] = { mode = "t", rhs = "<C-\\><C-n>", opts = { desc = "Exit terminal mode" } },
 }

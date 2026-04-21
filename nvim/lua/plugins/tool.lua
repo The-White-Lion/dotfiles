@@ -20,6 +20,7 @@ return {
       },
     },
   },
+  { "tpope/vim-fugitive", lazy = true, cmd = { "Git", "G" } },
   {
     "folke/trouble.nvim",
     init = function()
@@ -272,22 +273,43 @@ return {
   ---------------------------------------------------------
   {
     "olimorris/codecompanion.nvim",
-    lazy = true,
-    event = "VeryLazy",
+    cmd = {
+      "CodeCompanion",
+      "CodeCompanionChat",
+      "CodeCompanionActions",
+    },
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
       "zbirenbaum/copilot.lua",
     },
-    opts = {
-      strategies = {
-        chat = { adapter = "copilot" },
-        inline = { adapter = "copilot" },
-      },
-      opts = {
-        language = "Chinese",
-        log_level = "ERROR",
-      },
-    },
+    opts = function()
+      local adapters = require("codecompanion.adapters")
+
+      return {
+        adapters = {
+          acp = {
+            codex = function()
+              return adapters.extend("codex", {
+                commands = {
+                  default = { "npx", "@zed-industries/codex-acp" },
+                },
+                defaults = {
+                  auth_method = "chatgpt",
+                },
+              })
+            end,
+          },
+        },
+        strategies = {
+          chat = { adapter = "codex" },
+          inline = { adapter = "copilot" },
+        },
+        opts = {
+          language = "Chinese",
+          log_level = "ERROR",
+        },
+      }
+    end,
   },
 }

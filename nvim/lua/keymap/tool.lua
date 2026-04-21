@@ -78,7 +78,7 @@ return {
   ["<leader>ck"] = { mode = "n", rhs = "<Cmd>CodeCompanionActions<CR>", opts = { desc = "codecompanion: Actions" } },
   ["<leader>ca"] = {
     mode = "v",
-    rhs = "<Cmd>CodeCompanionChat Add<CR>",
+    rhs = "<Cmd>CodeCompanionChat Add<CR><Esc>",
     opts = { desc = "codecompanion: Add selection to chat" },
   },
 }
